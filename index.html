@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vitor Fugita</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+@font-face {
+  font-family: "TitilliumWeb";
+  src: url("fonte/TitilliumWeb-Regular.ttf");
+}
+
+.logo {
+        max-width: 170px;
+	float: left;
+      }
+
+.header {
+  font-family: "TitilliumWeb";
+  overflow: hidden;
+  background-color: ##d3d3d3;
+  padding: 10px 10px;
+  
+}
+
+.header a {
+  font-family: "TitilliumWeb";
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+
+
+.header a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.header a.active {
+  background-color: grey;
+  color: white;
+}
+
+.header-right {
+  float: right;
+  padding: 35px 20px;
+}
+
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.wrapper {
+  overflow: hidden;
+  height: 80vh;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-gap: 10px;
+}
+
+.gallery {
+  overflow: scroll;
+  -ms-scroll-snap-type: x mandatory;
+      scroll-snap-type: x mandatory;
+      <--scroll-behavior: smooth;>
+  margin-left: 100px;
+}
+
+.gallery__img {
+  scroll-snap-align: start;
+  margin-bottom: 100px;
+  min-height: 50vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.lil-nav {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.lil-nav a {
+  height: 200px;
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.lil-nav__img {
+  -o-object-fit: cover;
+     object-fit: cover;
+
+   &:hover {
+    transform: scale(1.05);
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="imagens/logo.png" class="logo">
+  <div class="header-right">
+    <a class="active" href="./index.html">Concept_Illustrt</a>
+    <a href="./edit.html">Editorial</a>
+    <a href="./links.html">Links</a>
+  </div>
+</div>
+
+<div class="wrapper">
+  <nav class="lil-nav">
+    <a href="#image-1">
+      <img class="lil-nav__img" src="imagens/Concept/Pulo.png" alt="Pulo" width= "250" />
+    </a>
+    <a href="#image-2">
+      <img class="lil-nav__img" src="imagens/Concept/Yom.jpg" alt="Yom" />
+    </a>
+    <a href="#image-3">
+      <img class="lil-nav__img" src="imagens/Concept/Invoc.jpg" alt="Invocation" width= "250" />
+    </a>
+    <a href="#image-4">
+      <img class="lil-nav__img" src="imagens/Concept/Senri.jpg" alt="Senri" width= "250" />
+    </a>
+    <a href="#image-5">
+      <img class="lil-nav__img" src="imagens/Concept/Orla.jpg" />
+    </a>
+    <a href="#image-6">
+      <img class="lil-nav__img" src="imagens/Concept/Pedra.jpg" />
+    </a>
+    <a href="#image-7">
+      <img class="lil-nav__img" src="imagens/Concept/Yotera.jpg" />
+    </a>
+    <a href="#image-8">
+      <img class="lil-nav__img" src="imagens/Concept/Artems_sheet.jpg" width="250" />
+    </a>
+    <a href="#image-9">
+      <img class="lil-nav__img" src="imagens/Concept/Clamor.png" />
+    </a>
+    <a href="#image-10">
+      <img class="lil-nav__img" src="imagens/Concept/Corsario.png" />
+    </a>
+    <a href="#image-11">
+      <img class="lil-nav__img" src="imagens/Concept/Yolu.jpg" />
+    </a>
+    <a href="#image-12">
+      <img class="lil-nav__img" src="imagens/Concept/Tecelã.png" />
+    </a>
+    <a href="#image-13">
+      <img class="lil-nav__img" src="imagens/Concept/MascaradoBlu.png" />
+    </a>
+    <a href="#image-14">
+      <img class="lil-nav__img" src="imagens/Concept/TendaRocca.jpg" width="250" />
+    </a>
+    <a href="#image-15">
+      <img class="lil-nav__img" src="imagens/Concept/Portal.jpg" width="250" />
+    </a>
+  </nav>
+
+  <div class="gallery">
+    <img class="gallery__img" id="image-1" src="imagens/Concept/Pulo.png" />
+    <img class="gallery__img" id="image-2" src="imagens/Concept/Yom.jpg" />
+    <img class="gallery__img" id="image-3" src="imagens/Concept/Invoc.jpg" />
+    <img class="gallery__img" id="image-4" src="imagens/Concept/Senri.jpg" />
+    <img class="gallery__img" id="image-5" src="imagens/Concept/Orla.jpg" />
+    <img class="gallery__img" id="image-6" src="imagens/Concept/Pedra.jpg" />
+    <img class="gallery__img" id="image-7" src="imagens/Concept/Yotera.jpg" />
+    <img class="gallery__img" id="image-8" src="imagens/Concept/Artems_sheet.jpg" />
+    <img class="gallery__img" id="image-9" src="imagens/Concept/Clamor.png" />
+    <img class="gallery__img" id="image-10" src="imagens/Concept/Corsario.png" />
+    <img class="gallery__img" id="image-11" src="imagens/Concept/Yolu.jpg" />
+    <img class="gallery__img" id="image-12" src="imagens/Concept/Tecelã.png" />
+    <img class="gallery__img" id="image-13" src="imagens/Concept/MascaradoBlu.png" />
+    <img class="gallery__img" id="image-14" src="imagens/Concept/TendaRocca.jpg" />
+    <img class="gallery__img" id="image-15" src="imagens/Concept/Portal.jpg" />
+  </div>
+</div>
+
+</body>
+</html>
+
+
