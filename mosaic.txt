@@ -1,0 +1,151 @@
+const gallery = document.querySelector('div.mosaic-gallery');
+document.body.style.overflowX = 'hidden';
+gallery.style.width = '100%';
+gallery.style.display = 'flex';
+gallery.style.flexWrap = 'wrap';
+gallery.style.overflow = 'hidden';
+gallery.style.padding = 0;
+gallery.style.margin = 0;
+const links = Array.from(gallery.querySelectorAll('a'));
+links.forEach(function(image) {
+  image.style.display = 'inline-block';
+  image.style.verticalAlign = 'bottom';
+  image.style.padding = 0;
+  image.style.margin = 0;
+  image.style.border = 'none';
+  image.style.textDecoration = 'none';
+  image.querySelector('img').style.display = 'inline-block';
+  image.querySelector('img').style.margin = 0;
+  image.querySelector('img').style.border = 0;
+  image.querySelector('img').style.verticalAlign = 'bottom';
+  image.querySelector('img').style.lineHeight = 0;
+  image.querySelector('img').style.marginBottom = '4px';
+});
+
+function justifyGallery() {
+    gallery.style.width = '100%';
+    const containerWidth = Math.floor(gallery.getBoundingClientRect().width);
+    const images = Array.from(gallery.querySelectorAll('img'));
+    //set data-ratio, based on width and height attribute to loaded images if not set
+    images.forEach(function(img) {
+        if(!img.dataset.ratio && img.naturalWidth) {
+            if(img.naturalWidth && img.naturalHeight) {
+                img.dataset.ratio = img.naturalWidth / img.naturalHeight;
+            }
+        }
+    });
+    const margin = 4; // px, space between images
+    const maxImageWidth = 700; // px
+    const minImagesPerRow = Math.ceil(containerWidth/maxImageWidth);
+    const maxImagesLastRow = Math.ceil(containerWidth/maxImageWidth)+1;
+
+    let rows = [];
+    let idx = 0;
+
+    // Build rows aiming for minImagesPerRow images per row, but allow more if needed
+    while (idx < images.length) {
+        let row = [];
+        let rowRatios = 0;
+        let rowEnd = false;
+
+        while (!rowEnd && idx < images.length) {
+            const img = images[idx];
+            const ratio = parseFloat(img.dataset.ratio) || 1;
+            row.push({ img, ratio });
+            rowRatios += ratio;
+
+            const gutters = (row.length - 1) * margin;
+            let rowHeight = (containerWidth - gutters) / rowRatios;
+            let widths = row.map(({ ratio }) => Math.round(rowHeight * ratio));
+            let tooWide = widths.some(w => w > maxImageWidth);
+
+            // If we have at least minImagesPerRow and no image is too wide, break
+            if ((row.length >= minImagesPerRow && !tooWide) || idx === images.length - 1) {
+                rowEnd = true;
+            } else if (tooWide && idx < images.length - 1) {
+                idx++;
+            } else {
+                rowEnd = true;
+            }
+        }
+
+        rows.push({ row, rowRatios });
+        idx++;
+    }
+
+    // Ensure last row has at least minImagesPerRow images (unless total images < 3 or gallery is narrow)
+    while (
+        rows.length > 1 &&
+        rows[rows.length - 1].row.length < minImagesPerRow &&
+        containerWidth >= 600
+    ) {
+        const lastRow = rows.pop();
+        rows[rows.length - 1].row = rows[rows.length - 1].row.concat(lastRow.row);
+        rows[rows.length - 1].rowRatios += lastRow.rowRatios;
+    }
+
+    // If last row has more than maxImagesLastRow images, move extras to previous rows
+    while (
+        rows.length > 1 &&
+        rows[rows.length - 1].row.length > maxImagesLastRow
+    ) {
+        const lastRow = rows[rows.length - 1];
+        const prevRow = rows[rows.length - 2];
+
+        if (lastRow.row.length > maxImagesLastRow) {
+            const moved = lastRow.row.shift();
+            lastRow.rowRatios -= moved.ratio;
+            prevRow.row.push(moved);
+            prevRow.rowRatios += moved.ratio;
+        } else {
+            break;
+        }
+    }
+
+    rows.forEach(({ row, rowRatios }) => {
+        const gutters = (row.length - 1) * margin;
+        let rowHeight = (containerWidth - gutters) / rowRatios;
+
+        let widths = row.map(({ ratio }) => Math.round(rowHeight * ratio));
+        let roundedHeight = Math.round(rowHeight);
+
+        let totalWidth = widths.reduce((a, b) => a + b, 0) + gutters;
+        let diff = containerWidth - totalWidth;
+
+        widths[widths.length - 1] += diff;
+
+        row.forEach(({ img }, i) => {
+            img.style.height = `${roundedHeight}px`;
+            img.style.width = `${widths[i]}px`;
+            img.style.marginRight = (i < row.length - 1) ? `${margin}px` : '0';
+        });
+    });
+    gallery.style.width = containerWidth + 'px';
+}
+
+function debounce(fn, delay) {
+    let timeoutId;
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
+}
+
+// Debounce it with 50ms delay
+const debouncedResize = debounce(justifyGallery, 50);
+
+// Attach to event
+window.addEventListener("resize", function() {
+    debouncedResize();
+});
+
+// When images load, re-justify gallery
+gallery.querySelectorAll('img').forEach(function(img) {
+    img.addEventListener('load', function() {
+        debouncedResize();
+    });
+});
+
+justifyGallery();
